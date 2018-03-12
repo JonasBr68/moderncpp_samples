@@ -21,13 +21,7 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ModernCPP.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Lambdas.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CPPVersion.h">
+    <ClInclude Include="Persona.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -35,10 +29,10 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ModernCPP.cpp">
+    <ClCompile Include="ClassicCPP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Lambdas.cpp">
+    <ClCompile Include="Persona.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

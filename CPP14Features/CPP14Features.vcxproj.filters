@@ -21,24 +21,12 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ModernCPP.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Lambdas.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CPPVersion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ModernCPP.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Lambdas.cpp">
+    <ClCompile Include="CPP14Features.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
