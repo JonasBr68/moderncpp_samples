@@ -16,15 +16,15 @@ void callStdLambda(int n, int m, std::function<void (int)> func)
 	if (n < m)
 		callStdLambda(++n, m, func);
 }
-#ifdef CPP14
+#if CPP_VER > 110
 auto magicLambda = [](auto n) {
 	cout << typeid(n).name() << el;
 	cout << n << el;
 };
 #endif
 
-#ifdef CPP14
-template<class... T>
+#if CPP_VER > 140
+template<class... T> //parameter pack since C++11
 double sum2(T... t)
 {
 	double result{};
@@ -56,13 +56,7 @@ auto sumAll = [](auto... n) {
 
 void lambdas() {
 
-	//printAll("Hello ", "world ", 1, 2, 3);
-	//cout << el;
-
-	//auto res = sum2(1, 2, 3, 4, 5, 2.3, 2.1, 2, 3);
-	//auto all = sumAll(1, 2, 3, 4, 5, 2.3, 2.1, 2, 3);
-
-#ifdef CPP11
+#if CPP_VER > 98
 	callLambda(1, 20,
 		[](int n)-> void { 
 		cout << /*msg <<*/ n << el;
@@ -80,15 +74,25 @@ void lambdas() {
 		cout << msg << n << el;
 	});
 
-#ifdef CPP14
+#if CPP_VER > 110
 	//Generic lambda
 	magicLambda("Hola lambda generico");
 	magicLambda(12345);
 
+	//anonymous lambda calling itself
 	([](auto n) {
 		cout << typeid(n).name() << el;
 		cout << n << el;
 	})("hi");
+#endif
+
+#if CPP_VER > 140
+	//variadic generic lambda with parameter pack C++ 17
+	printAll("Hello ", "world ", 1, 2, 3);
+	cout << el;
+
+	auto res = sum2(1, 2, 3, 4, 5, 2.3, 2.1, 2, 3);
+	auto all = sumAll(1, 2, 3, 4, 5, 2.3, 2.1, 2, 3);
 #endif
 
 }
