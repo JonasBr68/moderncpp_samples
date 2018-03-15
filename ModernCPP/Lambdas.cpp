@@ -2,7 +2,7 @@
 #include "Lambdas.h"
 
 
-//A lambda with no state (captures) can be demoted to a function pointer
+//A lambda with no state (captures/closure) can be demoted to a function pointer
 void callLambda(int n, int m, void (*func)(int))
 {
 	func(n);
@@ -71,7 +71,7 @@ void lambdas() {
 	auto msg = "Current number ";
 	//Will not compile as lambda with capture cannot be demoted to function pointer, needs std::function
 	//callLambda(1, 20,
-	//	[msg](int n)-> void {
+	//	[msg](int n)-> void { // error C2664: 'void callLambda(int,int,void (__cdecl *)(int))': cannot convert argument 3 to 'void (__cdecl *)(int)'
 	//	cout << msg << n << el;
 	//});
 

@@ -3,17 +3,25 @@
 
 #include <memory>
 
+#if CPP_VER > 98
 class EnforceUniquePtr
 {
 public:
 	static std::unique_ptr<EnforceUniquePtr> create()
 	{
 		static int i = 1;
-		return std::unique_ptr<EnforceUniquePtr>(new EnforceUniquePtr(i++));
+		//return std::unique_ptr<EnforceUniquePtr>(new EnforceUniquePtr(i++));
+		return std::make_unique<EnforceUniquePtr>(i++);
 	}
 	int i() const { return m_i; }
 private:
-	friend std::default_delete<EnforceUniquePtr>; //Allow unique_ptr to call our destructor
+	//Allow unique_ptr to call our destructor
+	friend std::default_delete<EnforceUniquePtr>; 
+	//Allow unique_ptr to call our constructor
+
+	//Uses 'pefect' forwarding, maintains lvalue/rvalue nature of the function/constructor arguments
+	friend std::unique_ptr<EnforceUniquePtr> std::make_unique<EnforceUniquePtr>(int&&); 
+	
 
 	EnforceUniquePtr(int i):
 		m_i(i)
@@ -30,9 +38,10 @@ void doThingsWithRawPointer(const EnforceUniquePtr* p)
 {
 	cout << "Processing EnforceUniquePtr " << p->i() << el;
 }
-
+#endif
 void enforceUniquePtr()
 {
+#if CPP_VER > 98
 	auto o = EnforceUniquePtr::create();
 
 	//auto sp = new EnforceUniquePtr(); //error C2248: 'EnforceUniquePtr::EnforceUniquePtr' : cannot access private member declared in class 'EnforceUniquePtr'
@@ -56,4 +65,5 @@ void enforceUniquePtr()
 	o2 = nullptr; //Will delete any pointer in o and reset it.
 
 	//delete pEU; //Cannot do this, destructor is private
+#endif
 }

@@ -79,12 +79,21 @@ void newCPP11Initialization()
 }
 
 
-
+//TestStruct is a agregate struct/class and also a POD (plain old data)
 struct TestStruct {
 	int m_i;
 	int m_x;
 	double m_f;
 };
+
+#if CPP_VER > 98
+//TestStruct is a NOT agregate struct/class and also NOT a POD (plain old data)
+struct TestStruct2 {
+	int m_i;
+	int m_x{}; //This 0 initialization is basically equivalent to providing your own default constructor
+	double m_f;
+};
+#endif
 
 void oldStructInitialization()
 {
@@ -267,7 +276,11 @@ void newClassInitialization()
 
 	//Simple es una clase 'agregada', como un struct sin constructor
 	auto s0 = Simple{
+#if CPP_VER > 110
+		 1 ,
+#else
 		0.9, //first -- VS 2017 error C2397: conversion from 'double' to 'int' requires a narrowing conversion
+#endif
 		2.2, //second
 		"s0" //third
 	};
@@ -284,6 +297,8 @@ void newClassInitialization()
 	//	"s0" //third
 	//};
 
+
+
 	Test arrTests[] = { { 1,"1" },{ 2,"2" },{ 3,"3" } };
 
 	std::vector<Test> classes = { { 1,"1" },{ 2,"2"}, { 3, "3.5" },{ 3 ,"3" } };
@@ -293,8 +308,97 @@ void newClassInitialization()
 #endif
 }
 
+
+//PODStruct is a agregate struct/class and also a POD (plain old data)
+struct PODStruct {
+	int m_i;
+	int m_x;
+};
+
+#if CPP_VER > 98
+//NonPODStruct is a NOT agregate struct/class and also NOT a POD (plain old data)
+struct NonPODStruct {
+	int m_i;
+	int m_x{}; //This 0 initialization is basically equivalent to providing your own default constructor
+};
+#endif
+
+void classInitializationGotchas()
+{
+#if CPP_VER > 98
+	auto ts0 = new PODStruct;
+	auto ts1 = new PODStruct();
+	auto ts2 = new PODStruct{};
+
+	auto ts2_0 = new NonPODStruct;
+	auto ts2_1 = new NonPODStruct();
+	auto ts2_2 = new NonPODStruct{};
+
+	cout << ts2_0->m_x << el;
+	cout << ts2->m_x << el;
+#endif
+}
+
+void narrowingConversion()
+{
+	const float f1 = 3.2;
+	const double d1 = 3.2;
+
+	float f3 = 3.2f;
+
+
+	//float f2 = { 3.2 }; //error C2397: conversion from 'double' to 'float' requires a narrowing conversion
+
+	assert(f1 == f3);
+	//assert(f1 == d1); //fails
+	
+	float f4 = { 3.5 }; //NOT narrowing conversion, BUT converts from double to float!! No lost information, allowed
+
+	float f5 = 4.2;
+	//float f6 = { 4.2 };
+
+	int i1 = 1.0;
+	//int i2 = { 1.0 }; //error C2397 : conversion from 'double' to 'int' requires a narrowing conversion
+	//int i3 = { 0.0 };
+	
+	int i4 = 0.9; //i4 == 0
+	//int i5 = { 0.9 }; //error C2397 : conversion from 'double' to 'int' requires a narrowing conversion
+
+}
+
+void func(int n) {
+	cout << "Calling func(int n) " << n << el;
+}
+void func(char *s)
+{
+	cout << "Calling func(char *s) " << el;
+}
+
+
+
+void nullPtr()
+{
+	char *myStr1 = NULL;
+	char *myStr2 = nullptr;
+	auto myStr3 = NULL;
+	auto myStr4 = nullptr;
+
+	// guess which function gets called?
+	func(myStr1); 
+	func(myStr2); 
+	func(myStr3);
+	func(myStr4);
+	func(NULL);
+	func(nullptr);
+
+}
+
 void Initialization()
 {
+	narrowingConversion();
+
+	nullPtr();
+
 	//Old style list initialization
 	oldStyleListInitialization();
 
@@ -309,4 +413,6 @@ void Initialization()
 
 	//Class initialization with initialization lists
 	newClassInitialization();
+
+	classInitializationGotchas();
 }

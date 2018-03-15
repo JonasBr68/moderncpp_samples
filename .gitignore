@@ -21,6 +21,12 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+**/CPP11\ Debug/
+**/CPP14\ Debug/
+**/CPP98\ Debug/
+*.tlog
+*.*.tlog
+*.*.*.tlog
 
 # Visual Studio 2015 cache/options directory
 .vs/

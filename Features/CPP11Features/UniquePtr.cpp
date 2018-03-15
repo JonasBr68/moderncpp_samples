@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 
+#if CPP_VER > 98
 class UPTest {
 public:
 	UPTest(int id):
@@ -29,9 +30,10 @@ void doStuff(std::unique_ptr<UPTest> o)
 {
 	cout << "Doing stuff with UPTest " << o->_id << el;
 }
-
+#endif
 void uniquePtr()
 {
+#if CPP_VER > 98
 		std::unique_ptr<UPTest> x = getSomething();
 		std::unique_ptr<UPTest> y = getAnotherOne();
 
@@ -53,4 +55,6 @@ void uniquePtr()
 		auto up3 = std::unique_ptr<UPTest>(pUP);
 			
 		//delete pUP; //BAD, when up3 goes out of scope it will double delete the pUP pointer
+
+#endif
 }

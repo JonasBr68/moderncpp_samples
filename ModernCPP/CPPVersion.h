@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <string>
 #include <yvals.h>
 using std::cout;
 
@@ -63,7 +64,7 @@ static_assert(_MSC_VER > 1599 && _MSC_VER < 1914, "Failed detection of VS");
 //MSVC++ 7.0  _MSC_VER == 1300
 //MSVC++ 6.0  _MSC_VER == 1200
 //MSVC++ 5.0  _MSC_VER == 1100
-#define CPP_REQUIRED(level) static_assert(level == CPP_VER, "Not correct CPP level configured in project")
+#define CPP_REQUIRED(level) static_assert(level > (CPP_VER - 1), "Not correct CPP level configured in project")
 
 inline void printCPPStandardInUse()
 {

@@ -3,4 +3,6 @@ void sharedPtr();
 
 void sharedPtrCyclical();
 
+void sharedPtrRefCounting();
+
 
