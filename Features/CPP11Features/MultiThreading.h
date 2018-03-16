@@ -1,4 +1,8 @@
 #pragma once
 
 
-void multiTreading();
+void atomicSingleton();
+void callOnce();
+void safeCounter();
+
+

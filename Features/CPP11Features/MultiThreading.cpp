@@ -7,6 +7,26 @@
 #include <memory>
 
 
+std::once_flag flag;
+
+void do_something() {
+	int captured = 4;
+	std::call_once(flag, [&captured]() {std::cout << "Called once " << captured << std::endl; });
+
+	std::cout << "Called each time" << std::endl;
+}
+
+void callOnce() {
+
+	for (int i = 0; i < 5; i++)
+	{
+		do_something();
+	}
+
+}
+
+
+
 #if CPP_VER > 98
 //http://preshing.com/20130930/double-checked-locking-is-fixed-in-cpp11/
 class Singleton {
@@ -104,7 +124,48 @@ thread_local static std::unique_ptr<ThreadCleanup> clean_up_thread = std::make_u
 //std::atomic<std::shared_ptr<SingletonShared>> SingletonShared::s_sharedInstance;
 
 
-void multiTreading() {
+//Example from https://baptiste-wicht.com/posts/2012/03/cp11-concurrency-tutorial-part-2-protect-shared-data.html
+struct Counter {
+	int value;
+
+	Counter() : value(0) {}
+
+	void increment() {
+		++value;
+	}
+
+	void decrement() {
+		if (value == 0) {
+			throw "Value cannot be less than 0";
+		}
+
+		--value;
+	}
+};
+
+struct ConcurrentSafeCounter {
+	std::mutex mutex;
+	Counter counter;
+
+	void increment() {
+		std::lock_guard<std::mutex> guard(mutex); //Exception safe, scope resolves lifetime
+		counter.increment();
+	}
+
+	void decrement() {
+		std::lock_guard<std::mutex> guard(mutex); //Exception safe, scope resolves lifetime
+		counter.decrement();
+	}
+};
+
+void safeCounter() {
+	ConcurrentSafeCounter counter{};
+
+	counter.increment();
+	counter.decrement();
+}
+
+void atomicSingleton() {
 #if CPP_VER > 98
 	std::atomic<int> i = 23;
 	i += 2;

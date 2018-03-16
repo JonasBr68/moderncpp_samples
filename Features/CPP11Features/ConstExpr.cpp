@@ -20,11 +20,23 @@ constexpr ConstConstruct objects[] = { "constString", "constString", "constStrin
 
 constexpr ConstConstruct obj{ "Hello" };
 
+
+
+//constexpr functions in C++ restriction, although this one should work but does not in VS 2013
+constexpr unsigned fibonacci(unsigned i) {
+	return (i <= 1u) ? i : (fibonacci(i - 1) + fibonacci(i - 2));
+}
+
 #endif
+
 
 void constExpr()
 {
 #if CPP_VER > 110
+
+	constexpr unsigned fib = fibonacci(20); //Stack limit with 30, warning C4593: 'fibonacci': 'constexpr' call evaluation step limit of 100000 exceeded; use /constexpr:steps<NUMBER> to increase the limit
+
+
 	constexpr auto constString = "constString";
 
 	constexpr const char* constStringArr[5] = { "constString", "constString", "constString", "constString", "constString" };
