@@ -7,6 +7,10 @@
 static std::vector<std::function<void()>> _tasks;
 static std::vector<std::thread> _threads;
 
+class ThreadPool;
+
+static ThreadPool* pPool = nullptr;
+
 class ThreadPool
 {
 public:
@@ -29,13 +33,14 @@ private:
 
 void simpleThreadPool()
 {
-	ThreadPool pool(8); //Init with max threads
 
-	pool.addTask([]() -> void { cout << "hello" << el; });
+	//Initialize pPool once, and replace raw pPool pointer with a std::unique_ptr;
 
-	pool.addTask([i = 4]() -> void { 
+	pPool->addTask([]() -> void { cout << "hello" << el; });
+
+	pPool->addTask([i = 4]() -> void {
 		cout << "hello " << i << el; 
 	});
 
-	pool.waitAll();
+	pPool->waitAll();
 }
