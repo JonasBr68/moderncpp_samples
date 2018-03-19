@@ -55,7 +55,7 @@
     <ProjectGuid>{07253194-3F50-45E4-A391-BE2AB1A5EB0B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>CPP11Features</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
     <!--<WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>-->
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -409,6 +409,7 @@
     <ClInclude Include="Threads.h" />
     <ClInclude Include="TrailingReturnType.h" />
     <ClInclude Include="UniquePtr.h" />
+    <ClInclude Include="WinConditionVar.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Auto.cpp" />
